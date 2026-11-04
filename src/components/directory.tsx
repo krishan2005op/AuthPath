@@ -13,7 +13,8 @@ const marks: Record<string, { glyph: string; className: string }> = {
 
 function ProviderMark({ guide }: { guide: OAuthGuide }) {
   const mark = marks[guide.slug];
-  return <span className={`provider-mark ${mark.className}`} aria-hidden="true">{mark.glyph}</span>;
+  const fallback = formatGuideName(guide.name).trim().charAt(0).toUpperCase() || "?";
+  return <span className={`provider-mark ${mark?.className ?? "mark-generic"}`} aria-hidden="true">{mark?.glyph ?? fallback}</span>;
 }
 
 export default function Directory() {
