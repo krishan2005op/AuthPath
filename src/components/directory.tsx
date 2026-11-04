@@ -58,12 +58,11 @@ export default function Directory() {
     <main className="app-shell">
       <header className="topbar">
         <a className="brand" href="/" aria-label="AuthPath home"><span className="brand-icon"><Command size={18} strokeWidth={2.4} /></span><span>authpath<span className="brand-period">.</span></span></a>
-        <nav className="top-nav" aria-label="Main navigation"><a className="nav-active" href="#directory">Explore guides</a><a href="#how-it-works">How it works</a></nav>
         <ThemeToggle />
         <button className="button button-small button-outline" onClick={shareDirectory}>{copied ? <Check size={15} /> : <ExternalLink size={15} />}{copied ? "Copied" : "Share directory"}</button>
       </header>
 
-      <section className="hero" id="how-it-works">
+      <section className="hero">
         <div className="hero-inner">
           <div className="eyebrow"><span className="eyebrow-dot" /> INTEGRATION READINESS / FIELD NOTES 01—04</div>
           <h1>Know the approval path <span>before you build.</span></h1>
@@ -104,7 +103,7 @@ export default function Directory() {
 
         {visibleGuides.length > 0 ? <div className="guide-grid">{visibleGuides.map((guide) => <GuideCard key={guide.slug} guide={guide} />)}</div> : <div className="empty-state"><span className="empty-icon"><Search size={21} /></span><h3>No guides match that search</h3><p>Try another app name or clear your filters.</p><button className="button button-outline" onClick={() => { setQuery(""); setDifficulty("All levels"); setApprovalOnly(false); }}>Clear filters</button></div>}
 
-        <div className="evidence-note"><span className="evidence-check"><ShieldCheck size={17} /></span><p><strong>Built on evidence, not guesswork.</strong> Guides cite official provider documentation and clearly separate researched requirements from effort estimates and unknowns.</p><a href="#how-it-works" aria-label="Learn how guides are researched"><ArrowRight size={17} /></a></div>
+        <div className="evidence-note"><span className="evidence-check"><ShieldCheck size={17} /></span><p><strong>Built on evidence, not guesswork.</strong> Guides cite official provider documentation and clearly separate researched requirements from effort estimates and unknowns.</p></div>
       </section>
 
       <footer className="footer"><a className="brand footer-brand" href="/"><span className="brand-icon"><Command size={15} /></span><span>authpath<span className="brand-period">.</span></span></a><span>Make the path clear.</span><span>Guides are researched, not provider approvals.</span></footer>

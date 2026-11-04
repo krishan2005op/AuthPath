@@ -2,7 +2,7 @@
 
 import { FormEvent, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Check, CircleHelp, Clock3, Copy, ExternalLink, LoaderCircle, Search, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, CircleHelp, Clock3, Command, Copy, ExternalLink, LoaderCircle, Search, ShieldCheck, Sparkles } from "lucide-react";
 import { formatGuideName, type OAuthGuide } from "@/data/guides";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -121,7 +121,7 @@ export function GuideGenerator() {
 
   return <main className="generator-page">
     <header className="topbar generator-topbar">
-      <Link className="brand" href="/"><span className="brand-icon"><Sparkles size={17} /></span><span>authpath<span className="brand-period">.</span></span></Link>
+      <Link className="brand" href="/"><span className="brand-icon"><Command size={18} strokeWidth={2.4} /></span><span>authpath<span className="brand-period">.</span></span></Link>
       <Link className="back-link" href="/#directory"><ArrowLeft size={15} /> Back to guides</Link>
       <ThemeToggle />
     </header>

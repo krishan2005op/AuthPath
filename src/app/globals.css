@@ -115,8 +115,13 @@ body{background:#f8f7f2;color:#1f2924}
 .theme-toggle svg{color:#ad6c45}
 .generator-topbar .theme-toggle{margin-left:auto}
 .guide-top-actions .theme-toggle{margin-left:0}
+.topbar>.theme-toggle{margin-left:auto}
+.topbar>.button{margin-left:0}
+.guide-topbar .brand{font-size:19px}
+.guide-topbar .brand-icon{width:30px;height:30px;border-radius:9px}
 @media(max-width:1100px){.guide-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.guide-card{min-height:245px}.card-summary{min-height:38px}}
 @media(max-width:720px){.guide-grid{grid-template-columns:1fr;gap:10px}.guide-card{min-height:0;padding:16px}.card-summary{min-height:0}.card-meta{margin-top:7px}.topbar>.theme-toggle{margin-left:auto}.topbar>.button{margin-left:0}.theme-toggle{width:36px;padding:0}.theme-toggle span{display:none}.guide-top-actions{gap:9px}.guide-top-actions .theme-toggle{flex:none}}
+@media(max-width:720px){.guide-topbar .brand{font-size:17px}.guide-topbar .brand-icon{width:27px;height:27px}}
 @media(max-width:650px){.generator-topbar{gap:10px}.generator-topbar .back-link{margin-left:auto}.generator-topbar .theme-toggle{margin-left:0}}
 
 /* Dark is the default. The light palette remains available through the theme switch. */
