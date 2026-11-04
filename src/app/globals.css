@@ -14,6 +14,7 @@
 
 .mark-generic{background:#edf5ef;color:#438566;font-size:17px}
 .provider-mark img{width:23px;height:23px;object-fit:contain}
+.mini-icon img{width:17px;height:17px;object-fit:contain}
 .guide-contents-nav{display:flex;flex-direction:column;gap:4px}
 .guide-contents-nav>a{font-size:11px;color:#77837b;text-decoration:none;padding:9px 10px;border-radius:6px;transition:background .16s,color .16s,box-shadow .16s}
 .guide-contents-nav>a:hover{background:#f3f8f4;color:#267b54}

@@ -85,10 +85,10 @@ export default function Directory() {
         <div className="hero-visual" aria-hidden="true">
           <div className="orbit orbit-one" /><div className="orbit orbit-two" />
           <div className="orbit-center"><span className="orbit-logo"><Command size={24} /></span><span className="orbit-caption">YOUR INTEGRATION</span></div>
-          <div className="orbit-node node-github"><span className="mini-icon mini-gh">◉</span><span>GitHub</span></div>
-          <div className="orbit-node node-slack"><span className="mini-icon mini-slack">✣</span><span>Slack</span></div>
-          <div className="orbit-node node-google"><span className="mini-icon mini-google">G</span><span>Google</span></div>
-          <div className="orbit-node node-hubspot"><span className="mini-icon mini-hubspot">◈</span><span>HubSpot</span></div>
+          <div className="orbit-node node-github"><span className="mini-icon mini-gh"><img src={marks.github.src} alt="" /></span><span>GitHub</span></div>
+          <div className="orbit-node node-slack"><span className="mini-icon mini-slack"><img src={marks.slack.src} alt="" /></span><span>Slack</span></div>
+          <div className="orbit-node node-google"><span className="mini-icon mini-google"><img src={marks.google.src} alt="" /></span><span>Google</span></div>
+          <div className="orbit-node node-hubspot"><span className="mini-icon mini-hubspot"><img src={marks.hubspot.src} alt="" /></span><span>HubSpot</span></div>
           <div className="orbit-label">4 PROVIDERS · 1 CLEAR PATH</div>
         </div>
       </section>
