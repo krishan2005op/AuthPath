@@ -68,6 +68,8 @@ body{background:#f8f7f2;color:#1f2924}
 .card-top{grid-column:1;grid-row:1 / 3;flex-direction:column;align-items:flex-start;gap:7px}
 .provider-mark{height:34px;width:34px;border-radius:7px}
 .provider-mark img{width:20px;height:20px}
+.guide-provider-icon img{width:26px;height:26px;object-fit:contain}
+.guide-provider-icon.mark-generic{font-size:21px}
 .mark-github{font-size:20px}.mark-slack{font-size:22px}.mark-google{font-size:18px}.mark-hubspot{font-size:20px}
 .difficulty{font-size:7px;padding:4px 6px;border-radius:3px}
 .guide-card h3{grid-column:2;grid-row:1;margin:0 0 3px;font-size:15px;letter-spacing:-.35px;color:#26392e}

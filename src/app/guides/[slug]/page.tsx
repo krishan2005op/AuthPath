@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowUpRight, Check, CircleHelp, Clock3, ExternalLink, FileC
 import { GuideActions } from "@/components/guide-actions";
 import { GuideContentsNav } from "@/components/guide-contents-nav";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { ProviderLogo } from "@/components/provider-logo";
 import { formatGuideName, guideBySlug } from "@/data/guides";
 import { getPersistedGuide } from "@/lib/guide-store";
 
@@ -39,7 +40,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
         <article className="guide-content">
           <div className="guide-breadcrumb"><a href="/">Directory</a><span>/</span><span>{guide.name}</span></div>
           <section className="guide-title-block" id="overview">
-            <div className="guide-title-row"><span className={`guide-provider-icon guide-${guide.slug}`}>{guide.slug === "google" ? "G" : guide.slug === "github" ? "◉" : guide.slug === "slack" ? "✣" : "◈"}</span><span className={`difficulty difficulty-${guide.difficulty.toLowerCase()}`}><span />{guide.difficulty} setup</span></div>
+            <div className="guide-title-row"><ProviderLogo slug={guide.slug} name={guide.name} className="guide-provider-icon" /><span className={`difficulty difficulty-${guide.difficulty.toLowerCase()}`}><span />{guide.difficulty} setup</span></div>
             <h1>{formatGuideName(guide.name)} OAuth setup</h1>
             <p className="guide-lede">{guide.summary}</p>
             <div className="guide-updated"><span><FileCheck2 size={14} /> Researched from official sources</span><i /><span>Updated {guide.verification.lastChecked}</span><i /><span className="not-tested-label"><CircleHelp size={14} /> OAuth flow not tested</span></div>

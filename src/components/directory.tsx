@@ -4,21 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowDown, ArrowRight, Check, Clock3, Command, ExternalLink, Filter, Search, ShieldCheck, Sparkles, X } from "lucide-react";
 import { formatGuideName, guides, type OAuthGuide } from "@/data/guides";
 import { ThemeToggle } from "@/components/theme-toggle";
-
-const marks: Record<string, { src: string; className: string }> = {
-  github: { src: "https://cdn.simpleicons.org/github/FFFFFF", className: "mark-github" },
-  slack: { src: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/slack.svg", className: "mark-slack" },
-  google: { src: "https://cdn.simpleicons.org/google/4285F4", className: "mark-google" },
-  hubspot: { src: "https://cdn.simpleicons.org/hubspot/FF7A59", className: "mark-hubspot" },
-};
-
-function ProviderMark({ guide }: { guide: OAuthGuide }) {
-  const mark = marks[guide.slug];
-  const fallback = formatGuideName(guide.name).trim().charAt(0).toUpperCase() || "?";
-  return <span className={`provider-mark ${mark?.className ?? "mark-generic"}`} aria-hidden="true">
-    {mark ? <img src={mark.src} alt="" /> : fallback}
-  </span>;
-}
+import { ProviderLogo } from "@/components/provider-logo";
 
 export default function Directory() {
   const [query, setQuery] = useState("");
@@ -90,7 +76,7 @@ export default function Directory() {
             <div className="board-masthead"><span>PATH FILE / 002</span><span className="board-status"><i /> RESEARCHED</span></div>
             <div className="board-featured">
               <div><span className="board-label">FEATURED PROVIDER</span><h2>{formatGuideName(featuredGuide.name)}</h2><p>OAuth setup with a separate Marketplace review path.</p></div>
-              <ProviderMark guide={featuredGuide} />
+              <ProviderLogo slug={featuredGuide.slug} name={featuredGuide.name} className="provider-mark" />
             </div>
             <div className="board-route-label"><span>THE ROUTE</span><span>3 checkpoints</span></div>
             <div className="board-route">
@@ -131,7 +117,7 @@ function GuideCard({ guide }: { guide: OAuthGuide }) {
   const effort = guide.activeEffort.estimate.replace(" (AuthPath estimate)", "");
   return (
     <a className="guide-card" href={`/guides/${guide.slug}`}>
-      <div className="card-top"><ProviderMark guide={guide} /><span className={`difficulty difficulty-${guide.difficulty.toLowerCase()}`}><span />{guide.difficulty}</span></div>
+      <div className="card-top"><ProviderLogo slug={guide.slug} name={guide.name} className="provider-mark" /><span className={`difficulty difficulty-${guide.difficulty.toLowerCase()}`}><span />{guide.difficulty}</span></div>
       <h3>{formatGuideName(guide.name)}<ArrowRight className="card-arrow" size={17} /></h3>
       <p className="card-summary">{guide.summary}</p>
       <div className="card-meta"><span><Clock3 size={15} /><span><small>ACTIVE SETUP</small><strong>{effort}</strong></span></span><span className={`approval-pill ${review ? "approval-review" : "approval-simple"}`}><span className="approval-dot" />{review ? "Review may apply" : "No general review"}</span></div>
