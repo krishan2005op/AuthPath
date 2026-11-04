@@ -4,6 +4,7 @@ import { FormEvent, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Check, CircleHelp, Clock3, Copy, ExternalLink, LoaderCircle, Search, ShieldCheck, Sparkles } from "lucide-react";
 import { formatGuideName, type OAuthGuide } from "@/data/guides";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 type ProgressStage = "identify" | "sources" | "structure" | "validate" | "save";
 type StageState = "waiting" | "active" | "complete" | "failed";
@@ -122,6 +123,7 @@ export function GuideGenerator() {
     <header className="topbar generator-topbar">
       <Link className="brand" href="/"><span className="brand-icon"><Sparkles size={17} /></span><span>authpath<span className="brand-period">.</span></span></Link>
       <Link className="back-link" href="/#directory"><ArrowLeft size={15} /> Back to guides</Link>
+      <ThemeToggle />
     </header>
     <div className="generator-wrap">
       <div className="generator-heading"><div className="eyebrow"><span className="eyebrow-dot" /> LIVE RESEARCH</div><h1>Find your OAuth path.</h1><p>Enter an app name or website. AuthPath will search for developer docs, build a sourced checklist, and save a guide you can share.</p></div>

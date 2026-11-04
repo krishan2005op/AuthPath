@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowDown, ArrowRight, Check, Clock3, Command, ExternalLink, Filter, Search, ShieldCheck, Sparkles, X } from "lucide-react";
 import { formatGuideName, guides, type OAuthGuide } from "@/data/guides";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const marks: Record<string, { src: string; className: string }> = {
   github: { src: "https://cdn.simpleicons.org/github/FFFFFF", className: "mark-github" },
@@ -55,6 +56,7 @@ export default function Directory() {
     const matchesApproval = !approvalOnly || !guide.approval.requirement.toLowerCase().includes("no general pre-approval");
     return matchesText && matchesDifficulty && matchesApproval;
   }), [guideList, query, difficulty, approvalOnly]);
+  const featuredGuide = guideList.find((guide) => guide.slug === "slack") ?? guides[1];
 
   async function shareDirectory() {
     try {
@@ -71,31 +73,39 @@ export default function Directory() {
       <header className="topbar">
         <a className="brand" href="/" aria-label="AuthPath home"><span className="brand-icon"><Command size={18} strokeWidth={2.4} /></span><span>authpath<span className="brand-period">.</span></span></a>
         <nav className="top-nav" aria-label="Main navigation"><a className="nav-active" href="#directory">Explore guides</a><a href="#how-it-works">How it works</a></nav>
+        <ThemeToggle />
         <button className="button button-small button-outline" onClick={shareDirectory}>{copied ? <Check size={15} /> : <ExternalLink size={15} />}{copied ? "Copied" : "Share directory"}</button>
       </header>
 
       <section className="hero" id="how-it-works">
         <div className="hero-inner">
-          <div className="eyebrow"><span className="eyebrow-dot" /> THE OAUTH FIELD GUIDE</div>
-          <h1>Connect the dots<br />before you <span>connect an app.</span></h1>
-          <p className="hero-copy">Clear, evidence-backed paths through OAuth setup and provider approval. Know what’s quick, what takes work, and where you need to step in.</p>
-          <a className="button button-primary hero-button" href="#directory">Explore integration guides <ArrowDown size={16} /></a>
-          <div className="hero-proof"><span><ShieldCheck size={15} /> Official sources</span><i /><span><Clock3 size={15} /> Honest effort estimates</span><i /><span><Check size={15} /> Human handoffs called out</span></div>
+          <div className="eyebrow"><span className="eyebrow-dot" /> INTEGRATION READINESS / FIELD NOTES 01—04</div>
+          <h1>Know the approval path <span>before you build.</span></h1>
+          <p className="hero-copy">OAuth setup is more than a client ID. See the portal steps, permission choices, review waits, and handoffs each provider expects.</p>
+          <a className="button button-primary hero-button" href="#directory">Browse the provider files <ArrowDown size={16} /></a>
+          <div className="hero-proof"><span><ShieldCheck size={15} /> Provider sources</span><i /><span><Clock3 size={15} /> Work and wait separated</span><i /><span><Check size={15} /> Human steps made clear</span></div>
         </div>
-        <div className="hero-visual" aria-hidden="true">
-          <div className="orbit orbit-one" /><div className="orbit orbit-two" />
-          <div className="orbit-center"><span className="orbit-logo"><Command size={24} /></span><span className="orbit-caption">YOUR INTEGRATION</span></div>
-          <div className="orbit-node node-github"><span className="mini-icon mini-gh"><img src={marks.github.src} alt="" /></span><span>GitHub</span></div>
-          <div className="orbit-node node-slack"><span className="mini-icon mini-slack"><img src={marks.slack.src} alt="" /></span><span>Slack</span></div>
-          <div className="orbit-node node-google"><span className="mini-icon mini-google"><img src={marks.google.src} alt="" /></span><span>Google</span></div>
-          <div className="orbit-node node-hubspot"><span className="mini-icon mini-hubspot"><img src={marks.hubspot.src} alt="" /></span><span>HubSpot</span></div>
-          <div className="orbit-label">4 PROVIDERS · 1 CLEAR PATH</div>
+        <div className="hero-visual">
+          <div className="path-board">
+            <div className="board-masthead"><span>PATH FILE / 002</span><span className="board-status"><i /> RESEARCHED</span></div>
+            <div className="board-featured">
+              <div><span className="board-label">FEATURED PROVIDER</span><h2>{formatGuideName(featuredGuide.name)}</h2><p>OAuth setup with a separate Marketplace review path.</p></div>
+              <ProviderMark guide={featuredGuide} />
+            </div>
+            <div className="board-route-label"><span>THE ROUTE</span><span>3 checkpoints</span></div>
+            <div className="board-route">
+              <div className="board-checkpoint"><span>01</span><div><strong>Register the app</strong><small>Credentials + redirect URL</small></div></div>
+              <div className="board-checkpoint"><span>02</span><div><strong>Build the connection</strong><small>Scopes + callback handling</small></div></div>
+              <div className="board-checkpoint"><span>03</span><div><strong>Choose distribution</strong><small>Review applies to listing</small></div></div>
+            </div>
+            <div className="board-footer"><span><b>04</b> PROVIDERS IN THE DIRECTORY</span><span>Sources linked in each guide <ArrowRight size={13} /></span></div>
+          </div>
         </div>
       </section>
 
       <section className="directory-section" id="directory">
         <div className="section-heading">
-          <div><div className="eyebrow eyebrow-muted">START WITH A PROVIDER</div><h2>Integration guides</h2><p>Understand the path before you build it.</p></div>
+          <div><div className="eyebrow eyebrow-muted">THE PROVIDER INDEX / 01—04</div><h2>Choose your starting point</h2><p>Compare setup effort, permissions, and review paths.</p></div>
           <a className="generate-link" href="/generate"><span className="sparkle-icon"><Sparkles size={16} /></span><span><strong>Looking for another app?</strong><small>Generate a guide with AI research</small></span><ArrowRight size={17} /></a>
         </div>
 

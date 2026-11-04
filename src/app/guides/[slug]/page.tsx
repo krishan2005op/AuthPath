@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight, Check, CircleHelp, Clock3, ExternalLink, FileCheck2, Fingerprint, LockKeyhole, ShieldCheck, Sparkles } from "lucide-react";
 import { GuideActions } from "@/components/guide-actions";
 import { GuideContentsNav } from "@/components/guide-contents-nav";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { formatGuideName, guideBySlug } from "@/data/guides";
 import { getPersistedGuide } from "@/lib/guide-store";
 
@@ -25,7 +26,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
     <main className="guide-page">
       <header className="guide-topbar">
         <a className="brand" href="/"><span className="brand-icon"><Fingerprint size={17} /></span><span>authpath<span className="brand-period">.</span></span></a>
-        <div className="guide-top-actions"><a href="/#directory" className="back-link"><ArrowLeft size={15} /> All guides</a><GuideActions /></div>
+        <div className="guide-top-actions"><a href="/#directory" className="back-link"><ArrowLeft size={15} /> All guides</a><ThemeToggle /><GuideActions /></div>
       </header>
 
       <div className="guide-layout">
