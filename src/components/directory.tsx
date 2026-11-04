@@ -6,7 +6,7 @@ import { formatGuideName, guides, type OAuthGuide } from "@/data/guides";
 
 const marks: Record<string, { src: string; className: string }> = {
   github: { src: "https://cdn.simpleicons.org/github/FFFFFF", className: "mark-github" },
-  slack: { src: "https://cdn.simpleicons.org/slack/4A154B", className: "mark-slack" },
+  slack: { src: "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/slack.svg", className: "mark-slack" },
   google: { src: "https://cdn.simpleicons.org/google/4285F4", className: "mark-google" },
   hubspot: { src: "https://cdn.simpleicons.org/hubspot/FF7A59", className: "mark-hubspot" },
 };
