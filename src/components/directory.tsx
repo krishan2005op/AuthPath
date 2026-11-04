@@ -18,6 +18,7 @@ function ProviderMark({ guide }: { guide: OAuthGuide }) {
 
 export default function Directory() {
   const [query, setQuery] = useState("");
+  const [guideList, setGuideList] = useState(guides);
   const [difficulty, setDifficulty] = useState("All levels");
   const [approvalOnly, setApprovalOnly] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -34,12 +35,23 @@ export default function Directory() {
     return () => window.removeEventListener("keydown", handleShortcut);
   }, []);
 
-  const visibleGuides = useMemo(() => guides.filter((guide) => {
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/guides", { cache: "no-store" })
+      .then((response) => response.ok ? response.json() : null)
+      .then((payload: { guides?: OAuthGuide[] } | null) => {
+        if (!cancelled && payload?.guides) setGuideList(payload.guides);
+      })
+      .catch(() => undefined);
+    return () => { cancelled = true; };
+  }, []);
+
+  const visibleGuides = useMemo(() => guideList.filter((guide) => {
     const matchesText = `${guide.name} ${guide.summary}`.toLowerCase().includes(query.trim().toLowerCase());
     const matchesDifficulty = difficulty === "All levels" || guide.difficulty === difficulty;
     const matchesApproval = !approvalOnly || !guide.approval.requirement.toLowerCase().includes("no general pre-approval");
     return matchesText && matchesDifficulty && matchesApproval;
-  }), [query, difficulty, approvalOnly]);
+  }), [guideList, query, difficulty, approvalOnly]);
 
   async function shareDirectory() {
     try {

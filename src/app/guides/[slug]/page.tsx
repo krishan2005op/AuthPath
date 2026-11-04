@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight, Check, CircleHelp, Clock3, ExternalLink, FileCheck2, Fingerprint, LockKeyhole, ShieldCheck, Sparkles } from "lucide-react";
 import { GuideActions } from "@/components/guide-actions";
+import { GuideContentsNav } from "@/components/guide-contents-nav";
 import { guideBySlug } from "@/data/guides";
+import { getPersistedGuide } from "@/lib/guide-store";
 
 export function generateStaticParams() {
   return ["github", "slack", "google", "hubspot"].map((slug) => ({ slug }));
@@ -9,7 +11,8 @@ export function generateStaticParams() {
 
 export default async function GuidePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const guide = guideBySlug(slug);
+  const savedGuide = await getPersistedGuide(slug).catch(() => null);
+  const guide = savedGuide ?? guideBySlug(slug);
   if (!guide) notFound();
 
   const sourceById = new Map(guide.sources.map((source) => [source.id, source]));
@@ -26,7 +29,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
       <div className="guide-layout">
         <aside className="guide-sidebar">
           <span className="side-label">IN THIS GUIDE</span>
-          <a href="#overview">Overview</a><a href="#setup">Setup steps</a><a href="#permissions">Scopes &amp; permissions</a><a href="#requirements">Requirements</a><a href="#blockers">Potential blockers</a><a href="#handoff">Who does what</a><a href="#evidence">Evidence &amp; sources</a>
+          <GuideContentsNav />
           <div className="sidebar-note"><ShieldCheck size={16} /><p>Claims are linked to sources. Estimates and unknowns are labeled.</p></div>
         </aside>
 
