@@ -2,8 +2,10 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight, Check, CircleHelp, Clock3, ExternalLink, FileCheck2, Fingerprint, LockKeyhole, ShieldCheck, Sparkles } from "lucide-react";
 import { GuideActions } from "@/components/guide-actions";
 import { GuideContentsNav } from "@/components/guide-contents-nav";
-import { guideBySlug } from "@/data/guides";
+import { formatGuideName, guideBySlug } from "@/data/guides";
 import { getPersistedGuide } from "@/lib/guide-store";
+
+export const dynamic = "force-dynamic";
 
 export function generateStaticParams() {
   return ["github", "slack", "google", "hubspot"].map((slug) => ({ slug }));
@@ -37,7 +39,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
           <div className="guide-breadcrumb"><a href="/">Directory</a><span>/</span><span>{guide.name}</span></div>
           <section className="guide-title-block" id="overview">
             <div className="guide-title-row"><span className={`guide-provider-icon guide-${guide.slug}`}>{guide.slug === "google" ? "G" : guide.slug === "github" ? "◉" : guide.slug === "slack" ? "✣" : "◈"}</span><span className={`difficulty difficulty-${guide.difficulty.toLowerCase()}`}><span />{guide.difficulty} setup</span></div>
-            <h1>{guide.name} OAuth setup</h1>
+            <h1>{formatGuideName(guide.name)} OAuth setup</h1>
             <p className="guide-lede">{guide.summary}</p>
             <div className="guide-updated"><span><FileCheck2 size={14} /> Researched from official sources</span><i /><span>Updated {guide.verification.lastChecked}</span><i /><span className="not-tested-label"><CircleHelp size={14} /> OAuth flow not tested</span></div>
           </section>
@@ -48,7 +50,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
           </div>
 
           <section className="guide-section managed-callout">
-            <div className="managed-icon"><Sparkles size={18} /></div><div><div className="section-kicker">DO YOU NEED YOUR OWN APP?</div><h2>{guide.managedOAuth.available ? "A managed OAuth option may be available" : "Plan to register your own OAuth app"}</h2><p>{guide.managedOAuth.explanation}</p><SourceLinks ids={guide.managedOAuth.sourceIds} sources={sourceById} /></div>
+            <div className="managed-icon"><Sparkles size={18} /></div><div><div className="section-kicker">DO YOU NEED YOUR OWN APP?</div><h2>{guide.managedOAuth.available === null ? "Managed OAuth availability is unknown" : guide.managedOAuth.available ? "A managed OAuth option may be available" : "No managed OAuth option was found"}</h2><p>{guide.managedOAuth.explanation}</p><SourceLinks ids={guide.managedOAuth.sourceIds} sources={sourceById} /></div>
           </section>
 
           <section className="guide-section" id="setup">
@@ -79,7 +81,8 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
           <section className="guide-section evidence-section" id="evidence">
             <SectionHeading kicker="EVIDENCE &amp; LIMITS" title="What we checked" caption={`Last researched ${guide.verification.lastChecked}. Documentation review is not the same as testing an OAuth flow.`} />
             <div className="verification-grid"><VerificationList title="Researched from sources" items={guide.verification.researched} icon={<ShieldCheck size={15} />} /><VerificationList title="Tested directly" items={guide.verification.tested} icon={<Check size={15} />} emptyLabel="No provider setup or OAuth flow was tested for this guide." /><VerificationList title="Unknown or use-case dependent" items={guide.verification.unknown} icon={<CircleHelp size={15} />} /></div>
-            <div className="sources-block"><h3>Official documentation and references</h3><ol>{guide.sources.map((source) => <li key={source.id}><a href={source.url} target="_blank" rel="noreferrer"><span>{source.title}</span><small>{source.publisher}</small><ExternalLink size={13} /></a></li>)}</ol></div>
+            {guide.evidence?.length ? <div className="claim-evidence"><h3>Claim-level evidence</h3><p className="claim-caveat">The research agent assigns these labels from cited pages. They are not provider approval or direct OAuth tests.</p>{guide.evidence.map((item, index) => <div className="claim-row" key={`${item.claim}-${index}`}><p>{item.claim}</p><div className="claim-meta"><span>{item.verificationStatus}</span><span>{item.sourceType}</span><span>{item.confidence} confidence</span></div><SourceLinks ids={item.sourceIds} sources={sourceById} /></div>)}</div> : null}
+            <div className="sources-block"><h3>Sources used</h3><ol>{guide.sources.map((source) => <li key={source.id}><a href={source.url} target="_blank" rel="noreferrer"><span>{source.title}{source.type && <em className={`source-kind source-kind-${source.type}`}>{source.type === "provider-docs" ? "Provider docs · domain matched" : source.type === "integration-directory" ? "Integration directory" : source.type === "third-party" ? "Third-party source" : "Official status unconfirmed"}</em>}</span><small>{source.publisher}{source.confidence ? ` · ${source.confidence} confidence` : ""}</small><ExternalLink size={13} /></a></li>)}</ol></div>
           </section>
 
           <div className="guide-bottom-cta"><div><strong>Ready to take the next step?</strong><p>Use this checklist as a starting point, then confirm requirements for your exact app and scopes.</p></div><GuideActions /></div>

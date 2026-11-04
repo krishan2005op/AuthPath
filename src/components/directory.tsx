@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowDown, ArrowRight, Check, Clock3, Command, ExternalLink, Filter, Search, ShieldCheck, Sparkles, X } from "lucide-react";
-import { guides, type OAuthGuide } from "@/data/guides";
+import { formatGuideName, guides, type OAuthGuide } from "@/data/guides";
 
 const marks: Record<string, { glyph: string; className: string }> = {
   github: { glyph: "◉", className: "mark-github" },
@@ -119,7 +119,7 @@ function GuideCard({ guide }: { guide: OAuthGuide }) {
   return (
     <a className="guide-card" href={`/guides/${guide.slug}`}>
       <div className="card-top"><ProviderMark guide={guide} /><span className={`difficulty difficulty-${guide.difficulty.toLowerCase()}`}><span />{guide.difficulty}</span></div>
-      <h3>{guide.name}<ArrowRight className="card-arrow" size={17} /></h3>
+      <h3>{formatGuideName(guide.name)}<ArrowRight className="card-arrow" size={17} /></h3>
       <p className="card-summary">{guide.summary}</p>
       <div className="card-meta"><span><Clock3 size={15} /><span><small>ACTIVE SETUP</small><strong>{effort}</strong></span></span><span className={`approval-pill ${review ? "approval-review" : "approval-simple"}`}><span className="approval-dot" />{review ? "Review may apply" : "No general review"}</span></div>
       <div className="card-bottom"><span><ShieldCheck size={14} /> Official documentation</span><span>{guide.sources.length} sources</span></div>

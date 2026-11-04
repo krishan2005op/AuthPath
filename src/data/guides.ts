@@ -7,7 +7,22 @@
  */
 
 export type EvidenceStatus = "official-docs" | "estimate" | "unknown";
-export type Source = { id: string; title: string; url: string; publisher: string };
+export type Source = {
+  id: string;
+  title: string;
+  url: string;
+  publisher: string;
+  type?: "provider-docs" | "integration-directory" | "third-party" | "unconfirmed";
+  verificationStatus?: "grounded" | "unconfirmed";
+  confidence?: "high" | "medium" | "low";
+};
+export type ClaimEvidence = {
+  claim: string;
+  sourceIds: string[];
+  sourceType: "official-docs" | "search-result" | "estimate" | "unknown";
+  verificationStatus: "supported" | "estimated" | "unknown";
+  confidence: "high" | "medium" | "low";
+};
 export type GuideStep = { title: string; detail: string; evidence: EvidenceStatus; sourceIds: string[] };
 export type Scope = { name: string; purpose: string; selectionNote: string; sourceIds: string[] };
 export type OAuthGuide = {
@@ -17,7 +32,7 @@ export type OAuthGuide = {
   difficulty: "Low" | "Moderate" | "High";
   activeEffort: { estimate: string; rationale: string };
   approval: { requirement: string; wait: string; note: string };
-  managedOAuth: { available: boolean; explanation: string; sourceIds: string[] };
+  managedOAuth: { available: boolean | null; explanation: string; sourceIds: string[] };
   prerequisites: string[];
   redirectUri: string;
   credentials: string;
@@ -27,6 +42,7 @@ export type OAuthGuide = {
   agentCan: string[];
   developerMust: string[];
   sources: Source[];
+  evidence?: ClaimEvidence[];
   verification: { researched: string[]; tested: string[]; unknown: string[]; lastChecked: string };
 };
 
@@ -158,3 +174,7 @@ export const guides: OAuthGuide[] = [
 ];
 
 export const guideBySlug = (slug: string): OAuthGuide | undefined => guides.find((guide) => guide.slug === slug);
+
+export function formatGuideName(name: string) {
+  return name.replace(/\s+OAuth(?:\s*2(?:\.0)?)?(?:\s+App)?(?:\s+Setup)?(?:\s+Guide)?$/i, "").trim() || name.trim();
+}

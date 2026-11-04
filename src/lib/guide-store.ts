@@ -81,7 +81,7 @@ export function isOAuthGuide(value: unknown): value is OAuthGuide {
     && (guide.difficulty === "Low" || guide.difficulty === "Moderate" || guide.difficulty === "High")
     && isRecord(guide.activeEffort) && isShortText(guide.activeEffort.estimate, 160) && isShortText(guide.activeEffort.rationale, 500)
     && isRecord(guide.approval) && isShortText(guide.approval.requirement, 500) && isShortText(guide.approval.wait, 300) && isShortText(guide.approval.note, 500)
-    && isRecord(guide.managedOAuth) && typeof guide.managedOAuth.available === "boolean"
+    && isRecord(guide.managedOAuth) && (typeof guide.managedOAuth.available === "boolean" || guide.managedOAuth.available === null)
     && isShortText(guide.managedOAuth.explanation, 500) && refsExist(guide.managedOAuth.sourceIds)
     && isStringArray(guide.prerequisites) && guide.prerequisites.length <= 30
     && isShortText(guide.redirectUri, 800) && isShortText(guide.credentials, 800)
@@ -95,7 +95,15 @@ export function isOAuthGuide(value: unknown): value is OAuthGuide {
     && isStringArray(guide.agentCan) && isStringArray(guide.developerMust)
     && Array.isArray(guide.sources) && guide.sources.length > 0 && guide.sources.length <= 40 && guide.sources.every((source) => isRecord(source)
       && isShortText(source.id, 80) && isShortText(source.title, 200) && isShortText(source.publisher, 100)
+      && (source.type === undefined || ["provider-docs", "integration-directory", "third-party", "unconfirmed"].includes(String(source.type)))
+      && (source.verificationStatus === undefined || ["grounded", "unconfirmed"].includes(String(source.verificationStatus)))
+      && (source.confidence === undefined || ["high", "medium", "low"].includes(String(source.confidence)))
       && typeof source.url === "string" && isHttpUrl(source.url))
+    && (guide.evidence === undefined || (Array.isArray(guide.evidence) && guide.evidence.length <= 100 && guide.evidence.every((claim) => isRecord(claim)
+      && isShortText(claim.claim, 500) && refsExist(claim.sourceIds)
+      && ["official-docs", "search-result", "estimate", "unknown"].includes(String(claim.sourceType))
+      && ["supported", "estimated", "unknown"].includes(String(claim.verificationStatus))
+      && ["high", "medium", "low"].includes(String(claim.confidence)))))
     && isRecord(guide.verification) && isStringArray(guide.verification.researched)
     && isStringArray(guide.verification.tested) && isStringArray(guide.verification.unknown)
     && typeof guide.verification.lastChecked === "string" && /^\d{4}-\d{2}-\d{2}$/.test(guide.verification.lastChecked);
