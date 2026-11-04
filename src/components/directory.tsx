@@ -4,17 +4,19 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowDown, ArrowRight, Check, Clock3, Command, ExternalLink, Filter, Search, ShieldCheck, Sparkles, X } from "lucide-react";
 import { formatGuideName, guides, type OAuthGuide } from "@/data/guides";
 
-const marks: Record<string, { glyph: string; className: string }> = {
-  github: { glyph: "◉", className: "mark-github" },
-  slack: { glyph: "✣", className: "mark-slack" },
-  google: { glyph: "G", className: "mark-google" },
-  hubspot: { glyph: "◈", className: "mark-hubspot" },
+const marks: Record<string, { src: string; className: string }> = {
+  github: { src: "https://cdn.simpleicons.org/github/FFFFFF", className: "mark-github" },
+  slack: { src: "https://cdn.simpleicons.org/slack/4A154B", className: "mark-slack" },
+  google: { src: "https://cdn.simpleicons.org/google/4285F4", className: "mark-google" },
+  hubspot: { src: "https://cdn.simpleicons.org/hubspot/FF7A59", className: "mark-hubspot" },
 };
 
 function ProviderMark({ guide }: { guide: OAuthGuide }) {
   const mark = marks[guide.slug];
   const fallback = formatGuideName(guide.name).trim().charAt(0).toUpperCase() || "?";
-  return <span className={`provider-mark ${mark?.className ?? "mark-generic"}`} aria-hidden="true">{mark?.glyph ?? fallback}</span>;
+  return <span className={`provider-mark ${mark?.className ?? "mark-generic"}`} aria-hidden="true">
+    {mark ? <img src={mark.src} alt="" /> : fallback}
+  </span>;
 }
 
 export default function Directory() {
